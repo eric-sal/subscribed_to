@@ -1,4 +1,4 @@
-class SubscribedTo
+module SubscribedTo
   module Version
     MAJOR = 0
     MINOR = 1

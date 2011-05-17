@@ -1,0 +1,17 @@
+sqlite3:
+  adapter: sqlite3
+  database: subscribed_to.sqlite3
+
+mysql:
+  adapter: mysql
+  hostname: localhost
+  username: root
+  password:
+  database: subscribed_to
+
+postgresql:
+  adapter: postgresql
+  hostname: localhost
+  username: postgres
+  password:
+  database: subscribed_to
