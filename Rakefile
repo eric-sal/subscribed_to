@@ -12,15 +12,17 @@ end
 require 'rake'
 
 require 'jeweler'
+require './lib/subscribed_to/version.rb'
 Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
   gem.name = "subscribed_to"
   gem.homepage = "http://github.com/whtt-eric/subscribed_to"
   gem.license = "MIT"
-  gem.summary = %Q{Abstract}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = %Q{Abstract layer for managing mailing list subscriptions}
+  gem.description = %Q{Abstract layer for managing mailing list subscriptions}
   gem.email = "eric@wehaventthetime.com"
   gem.authors = ["whtt-eric"]
+  gem.version = SubscribedTo::Version::STRING
   # dependencies defined in Gemfile
 end
 Jeweler::RubygemsDotOrgTasks.new
