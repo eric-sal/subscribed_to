@@ -10,6 +10,7 @@ group :development do
   gem "factory_girl_rails", "1.0.1"
   gem "mocha", "0.9.12"
   gem "rspec-rails", "2.5.0"
+  gem "generator_spec"
   gem "bundler", "~> 1.0.0"
   gem "jeweler", "~> 1.6.0"
   gem "rcov", ">= 0"

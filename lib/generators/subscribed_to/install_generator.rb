@@ -9,7 +9,7 @@ module SubscribedTo
       class_option :service, :type => :string, :default => "mail_chimp", :desc => "Mailing list service to connect to [mail_chimp, constant_contact]"
 
       def self.next_migration_number(dirname)
-        Time.now.strftime("%Y%m%d%H%M%S")
+        @next_migration_number ||= Time.now.strftime("%Y%m%d%H%M%S")
       end
 
       def copy_initializer
