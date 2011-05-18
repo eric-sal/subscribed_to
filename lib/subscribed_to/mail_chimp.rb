@@ -9,9 +9,11 @@ module SubscribedTo
 
       # Subscribe the user to the mailing list
       def subscribe_to_list  #:doc:
+        merge_vars = self.class.merge_vars.dup
+
         if subscribed_to_list
           h = Hominid::API.new(SubscribedTo.mail_chimp_config.api_key)
-          h.list_subscribe(self.class.list_id, self.email)
+          h.list_subscribe(self.class.list_id, self.email, merge_vars.each { |key, method| merge_vars[key] = self.send(method.to_sym) })
         end
       rescue Hominid::APIError => e
         Rails.logger.warn e
@@ -20,7 +22,7 @@ module SubscribedTo
       # Update attributes of existing member
       def update_list_member  #:doc:
         config     = SubscribedTo.mail_chimp_config
-        merge_vars = self.class.merge_vars
+        merge_vars = self.class.merge_vars.dup
 
         # only do the update if either the subscription preference has changed (the user wants to be (un)subscribed),
         # or if one of the attributes in mail_chimp_config.merge_vars has changed

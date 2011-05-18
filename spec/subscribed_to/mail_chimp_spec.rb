@@ -12,7 +12,7 @@ describe SubscribedTo::MailChimp do
   context "for a new user" do
     it "should subscribe the user" do
       @user = MailChimpUser.create(Factory.attributes_for(:subscribed_user))
-      @user.callback_result.should eq "Subscribed"
+      @user.callback_result.should eq "Subscribed with: Eric, Salczynski, eric@wehaventthetime.com"
     end
 
     it "should not subscribe the user" do
@@ -32,7 +32,7 @@ describe SubscribedTo::MailChimp do
     end
 
     context "who is subscribed to the mailing list" do
-      before { @user = MailChimpUser.create(Factory.attributes_for(:subscribed_user)) }
+      before(:each) { @user = MailChimpUser.create(Factory.attributes_for(:subscribed_user)) }
 
       it "should unsubscribe the user" do
         @user.update_attributes({:subscribed_to_list => false})

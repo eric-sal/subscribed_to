@@ -10,8 +10,10 @@ class MailChimpUser < User
   # Stubbed for testing
   def subscribe_to_list
     if subscribed_to_list
+      merge_vars = self.class.merge_vars.dup
+
       # use hominid to subscribe user
-      self.callback_result = "Subscribed"
+      self.callback_result = "Subscribed with: #{merge_vars.each { |key, method| merge_vars[key] = self.send(method.to_sym) }.values.join(", ")}"
     else  # mocked for test -- subscribed_to_list normally doesn't do anything if !subscribed_to_list
       self.callback_result = "Not Subscribed"
     end
@@ -19,7 +21,7 @@ class MailChimpUser < User
 
   # Stubbed for testing
   def update_list_member
-    merge_vars = self.class.merge_vars
+    merge_vars = self.class.merge_vars.dup
 
     if !(self.changed & merge_vars.collect { |key, method| method.to_s }.push("subscribed_to_list")).empty?
       if self.changed.include?("subscribed_to_list")
