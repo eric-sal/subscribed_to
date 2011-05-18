@@ -1,6 +1,6 @@
 module SubscribedTo
-  module Generators
-    class InstallGenerator < Rails::Generators::NamedBase
+  module Generators #:nodoc:
+    class InstallGenerator < Rails::Generators::NamedBase #:nodoc:
       include Rails::Generators::Migration
       source_root File.expand_path('../templates', __FILE__)
 

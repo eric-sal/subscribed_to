@@ -19,24 +19,28 @@ module SubscribedTo
 
   # Sets Mail Chimp configuration using a block
   #
-  #  SubscribedTo.setup do |config|
-  #    config.service = :mail_chimp
+  # Example configuration:
+  #   SubscribedTo.setup do |config|
+  #     config.service = :mail_chimp
   #
-  #    config.mail_chimp do |mail_chimp_config|
-  #      mail_chimp_config.api_key = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX-us1"
-  #      mail_chimp_config.lists = {:mailing_list => {:id => "123456", :merge_vars => {"FNAME" => :first_name}
-  #    end
-  #  end
+  #     config.mail_chimp do |mail_chimp_config|
+  #       mail_chimp_config.api_key = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX-us1"
+  #       mail_chimp_config.lists = {:mailing_list => {:id => "123456", :merge_vars => {"FNAME" => :first_name}
+  #     end
+  #   end
   def self.mail_chimp(&block)
     @@mail_chimp_config = SubscribedTo::MailChimp::Config.new
     block.call @@mail_chimp_config
   end
 
-  def self.included(base) #nodoc:
+  def self.included(base) #:nodoc:
     base.send :extend, ClassMethods
   end
 
   module ClassMethods
+    # Enable *SubscribedTo* in your user model.
+    # The only paramter it takes is a symbol which corresponds to a list in the <tt>mail_chimp_config.lists</tt> hash.
+    #   subscribed_to :mailing_list
     def subscribed_to(id)
       include InstanceMethods
       include MailChimp::InstanceMethods if SubscribedTo.service == :mail_chimp
@@ -49,15 +53,18 @@ module SubscribedTo
       end
     end
 
+    # Returns the list id for the class as defined in mail_chimp
     def list_id
       SubscribedTo.mail_chimp_config.lists[@list_key][:id]
     end
 
+    # Returns the hash of merge vars for the class as defined in mail_chimp
     def merge_vars
       SubscribedTo.mail_chimp_config.lists[@list_key][:merge_vars]
     end
   end
 
+  # Provides instance methods which should be overwritten in service modules
   module InstanceMethods
     private
 

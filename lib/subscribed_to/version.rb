@@ -1,5 +1,5 @@
 module SubscribedTo
-  module Version
+  module Version  #:nodoc:
     MAJOR = 0
     MINOR = 1
     PATCH = 0

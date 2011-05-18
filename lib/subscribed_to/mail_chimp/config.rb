@@ -1,6 +1,6 @@
 module SubscribedTo
   module MailChimp
-    class Config < Hash
+    class Config < Hash  #:nodoc:
       # Creates an accessor that simply sets and reads a key in the hash:
       # Borrowed from Warden: https://github.com/hassox/warden/blob/master/lib/warden/config.rb
       def self.hash_accessor(*names) #:nodoc:

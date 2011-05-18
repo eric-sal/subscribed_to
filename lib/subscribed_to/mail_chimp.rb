@@ -2,12 +2,13 @@ require 'subscribed_to/mail_chimp/config'
 require 'hominid'
 
 module SubscribedTo
+  # Module for MailChimp subscription interaction
   module MailChimp
     module InstanceMethods
       private
 
       # Subscribe the user to the mailing list
-      def subscribe_to_list
+      def subscribe_to_list  #:doc:
         if subscribed_to_list
           h = Hominid::API.new(SubscribedTo.mail_chimp_config.api_key)
           h.list_subscribe(self.class.list_id, self.email)
@@ -17,7 +18,7 @@ module SubscribedTo
       end
 
       # Update attributes of existing member
-      def update_list_member
+      def update_list_member  #:doc:
         config     = SubscribedTo.mail_chimp_config
         merge_vars = self.class.merge_vars
 

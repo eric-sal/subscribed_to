@@ -1,6 +1,90 @@
-= subscribed_to
+= SubscribedTo
 
-Abstract layer for managing mailing list subscriptions
+Abstraction layer for managing mailing list subscription information for your user model.
+
+=== Requirements
+
+* Rails 3.x
+
+=== Supported Services
+
+<b>MailChimp</b>
+
+via the Homonid gem - http://github.com/terra-firma/hominid
+
+API v1.3 - http://apidocs.mailchimp.com/1.3
+
+* listSubscribe
+* listUnsubscribe
+* listUpdateMember
+
+
+<b>Constant Contact</b>
+
+Planned
+
+== Installation
+
+Add the gem to your Gemfile
+
+  gem "subscribed_to"
+
+Install the gem using bundler
+
+  bundle install
+
+Run the generator. You must specify the name of your user model.
+Other options:
+
+<tt>--skip-migration</tt>::    Do not generate the migration file to add the required column
+<tt>--service=SERVICE</tt>::   Specify which mailing list service you subscribe to (currently only supports "mail_chimp")
+
+  rails generate subscribed_to:install MODEL
+
+If you run the generator with <tt>--skip-migration</tt>, then you must be sure to to include the <tt>subscribed_to_list</tt> column in some other migration.
+
+  t.boolean :subscribed_to_list, :default => false
+
+Be sure to run the migration before you continue.
+
+=== Initializer Configuration
+
+After the initializer has been generated, you must set your mail service configuration options. The initializer is located at: <tt>config/initializers/subscribe_to.rb</tt>
+
+==== Mail Chimp
+
+Set your API key
+
+  mail_chimp_config.api_key = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX-us1"
+
+Set up your mailing lists to subscribe users to. List names can be any valid symbol.
+
+<tt>:id</tt>::          id of list - get this from the "Settings" page of your list
+<tt>:merge_vars</tt>::  hash of merge vars on list, MUST at least include "EMAIL" (do not use "MERGE0")
+
+  mail_chimp_config.lists = {
+    :mailing_list => {
+      :id => "xxxxxxxx",
+      :merge_vars => {"FNAME" => :first_name, "LNAME" => :last_name, "EMAIL" => :email}}}
+
+=== User Model Configuration
+
+You must enable *SubscribedTo* in your user model with <tt>subscribed_to</tt>.
+
+The only paramter it takes is a symbol which corresponds to a list in the <tt>mail_chimp_config.lists</tt> hash.
+
+  subscribed_to :mailing_list
+
+You may also need to specify <tt>subscribed_to_list</tt> as an accessible attribute.
+
+  attr_accessible :subscribed_to_list
+
+=== View Configuration
+
+To get things working with the view, just include a checkbox input on your user registration/edit forms.
+
+  = f.check_box :subscribed_to_list
+  = f.label :subscribed_to_list, "Join the mailing list"
 
 == Contributing to subscribed_to
 
@@ -14,6 +98,5 @@ Abstract layer for managing mailing list subscriptions
 
 == Copyright
 
-Copyright (c) 2011 whtt-eric. See LICENSE.txt for
-further details.
+Copyright (c) 2011 Eric Salczynski. See LICENSE.txt for further details.
 
