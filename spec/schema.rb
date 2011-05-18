@@ -4,5 +4,6 @@ ActiveRecord::Schema.define :version => 0 do
     t.string    :last_name
     t.string    :email
     t.boolean   :subscribed_to_list
+    t.string    :password
   end
 end

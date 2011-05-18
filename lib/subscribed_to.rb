@@ -9,7 +9,7 @@ module SubscribedTo
   mattr_accessor :service
   @@service = :mail_chimp
 
-  mattr_accessor :mail_chimp_config
+  mattr_reader :mail_chimp_config
   @@mail_chimp_config = nil
 
   # Set up SubscribedTo
@@ -23,8 +23,8 @@ module SubscribedTo
   #    config.service = :mail_chimp
   #
   #    config.mail_chimp do |mail_chimp_config|
-  #      mail_chimp_config.api_key = "xxxxxxxxxxxxxxxxxxxxxxxxxxxx-us1"
-  #      mail_chimp_config.lists = {:mailing_list => {:id => "12345", :merge_vars => {"FNAME" => :first_name}
+  #      mail_chimp_config.api_key = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX-us1"
+  #      mail_chimp_config.lists = {:mailing_list => {:id => "123456", :merge_vars => {"FNAME" => :first_name}
   #    end
   #  end
   def self.mail_chimp(&block)
@@ -37,8 +37,11 @@ module SubscribedTo
   end
 
   module ClassMethods
-    def subscribed_to(id, options)
-      include SubscribedTo::MailChimp::InstanceMethods
+    def subscribed_to(id)
+      include InstanceMethods
+      include MailChimp::InstanceMethods if SubscribedTo.service == :mail_chimp
+
+      @list_key = id.to_sym
 
       class_eval do
         after_create :subscribe_to_list
@@ -46,6 +49,16 @@ module SubscribedTo
       end
     end
 
+    def list_id
+      SubscribedTo.mail_chimp_config.lists[@list_key][:id]
+    end
+
+    def merge_vars
+      SubscribedTo.mail_chimp_config.lists[@list_key][:merge_vars]
+    end
+  end
+
+  module InstanceMethods
     private
 
     # Override in MailChimp module

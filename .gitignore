@@ -4,5 +4,6 @@ doc
 .yardoc
 .bundle
 pkg
+spec/log
 spec/database.yml
 tmp

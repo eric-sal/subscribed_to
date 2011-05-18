@@ -19,6 +19,7 @@ if File.exists?(database_yml)
   active_record_configuration = YAML.load_file(database_yml)[ENV['DB']]
 
   ActiveRecord::Base.establish_connection(active_record_configuration)
+  ActiveRecord::Base.logger = Logger.new(File.join(File.dirname(__FILE__), "log", "debug.log"))
 
   ActiveRecord::Base.silence do
     ActiveRecord::Migration.verbose = false
@@ -31,6 +32,8 @@ if File.exists?(database_yml)
 else
   raise "Please create #{database_yml} first to configure your database. Take a look at: #{database_yml}.sample"
 end
+
+Rails.logger = Logger.new(File.join(File.dirname(__FILE__), "log", "debug.log"))
 
 def clean_database!
   models = [User]

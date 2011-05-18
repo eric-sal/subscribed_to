@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "MailChimp Config" do
+describe SubscribedTo::MailChimp::Config do
   before(:each) { @config = SubscribedTo::MailChimp::Config.new }
 
   it "should behave like a hash" do
