@@ -1,3 +1,5 @@
+require 'subscribed_to/mail_chimp/config'
+
 module SubscribedTo
   module MailChimp
     module InstanceMethods
