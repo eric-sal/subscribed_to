@@ -1,0 +1,9 @@
+Description:
+    Add an initializer and migration for SubscribedTo.
+
+Example:
+    rails generate subscribed_to:install User
+
+    This will create:
+        config/initializers/subscribed_to.rb
+        db/migrate/add_subscribed_to_list_to_user.rb
