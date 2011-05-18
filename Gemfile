@@ -13,5 +13,5 @@ group :development do
   gem "generator_spec"
   gem "bundler", "~> 1.0.0"
   gem "jeweler", "~> 1.6.0"
-  gem "rcov", ">= 0"
+  gem "simplecov", ">=0.4.0"
 end
