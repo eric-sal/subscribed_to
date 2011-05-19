@@ -4,6 +4,13 @@ doc
 .yardoc
 .bundle
 pkg
-spec/log
+
+spec/tmp/*
+spec/tmp/**/*
 spec/database.yml
-tmp
+
+spec/dummy/config/initializers/subscribed_to.rb.example
+spec/dummy/log/*
+spec/dummy/db/*.sqlite3
+spec/dummy/tmp/*
+spec/dummy/tmp/**/*
