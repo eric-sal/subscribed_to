@@ -7,10 +7,6 @@ require 'rspec'
 require 'factory_girl'
 require 'subscribed_to'
 
-# Requires supporting files with custom matchers and macros, etc,
-# in ./support/ and its subdirectories.
-Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each {|f| require f}
-
 RSpec.configure do |config|
   config.mock_with :mocha
 end
@@ -28,8 +24,8 @@ if File.exists?(database_yml)
     ActiveRecord::Migration.verbose = false
 
     load('schema.rb')
-    Dir["#{File.dirname(__FILE__)}/app/**/*.rb"].each {|f| load f}
-    Dir["#{File.dirname(__FILE__)}/factories/*.rb"].each {|f| load f}
+    Dir["#{File.dirname(__FILE__)}/support/models/*.rb"].each {|f| load f}
+    Dir["#{File.dirname(__FILE__)}/support/factories/*.rb"].each {|f| load f}
   end
 
 else
