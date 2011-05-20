@@ -68,6 +68,10 @@ After the initializer has been generated, you must set your mail service configu
 
 ==== Mail Chimp
 
+Activate the gem. Can be disabled for development, staging, etc environtments. Activated only in production environment by default.
+
+  config.active = true
+
 Set your API key
 
   mail_chimp_config.api_key = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX-us1"
