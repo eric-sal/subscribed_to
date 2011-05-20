@@ -4,7 +4,15 @@ require 'active_record_extensions'
 require 'subscribed_to/mail_chimp'
 
 module SubscribedTo
+  # Activate the gem.
+  #
+  # Can be disabled for development, staging, etc environtments.
+  # Activated only in production environment by default.
+  mattr_accessor :active
+  @@active = Rails.env == "production"
+
   # Mailing list service to interact with.
+  #
   # Options: :mail_chimp, :constant_contact
   # Currently only supports Mail Chimp
   mattr_accessor :service
@@ -44,19 +52,21 @@ module SubscribedTo
     # The only paramter it takes is a symbol which corresponds to a list in the <tt>mail_chimp_config.lists</tt> hash.
     #   subscribed_to :mailing_list
     def subscribed_to(id)
-      include InstanceMethods
-      include MailChimp::InstanceMethods if SubscribedTo.service == :mail_chimp
+      if SubscribedTo.active  # don't activate all the gem goodies if we're not active
+        include InstanceMethods
+        include MailChimp::InstanceMethods if SubscribedTo.service == :mail_chimp
 
-      @list_key = id.to_sym
+        @list_key = id.to_sym
 
-      # We need to reference which models are enabled, and which list they belong to when processing the webhooks.
-      SubscribedTo.mail_chimp_config.enabled_models[self.list_id].blank? ?
-        SubscribedTo.mail_chimp_config.enabled_models[self.list_id] = [self.to_s] :
-        SubscribedTo.mail_chimp_config.enabled_models[self.list_id] << self.to_s
+        # We need to reference which models are enabled, and which list they belong to when processing the webhooks.
+        SubscribedTo.mail_chimp_config.enabled_models[self.list_id].blank? ?
+          SubscribedTo.mail_chimp_config.enabled_models[self.list_id] = [self.to_s] :
+          SubscribedTo.mail_chimp_config.enabled_models[self.list_id] << self.to_s
 
-      class_eval do
-        after_create :subscribe_to_list
-        after_update :update_list_member
+        class_eval do
+          after_create :subscribe_to_list
+          after_update :update_list_member
+        end
       end
     end
 

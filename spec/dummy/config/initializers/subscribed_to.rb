@@ -1,4 +1,6 @@
 SubscribedTo.setup do |config|
+  config.active = true
+
   config.service = :mail_chimp
 
   config.mail_chimp do |mail_chimp_config|

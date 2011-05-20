@@ -17,7 +17,7 @@ module SubscribedTo
         end
       end
 
-      hash_accessor :api_key, :lists, :secret_key, :enabled_models
+      hash_accessor :active, :api_key, :lists, :secret_key, :enabled_models
 
       def initialize(config = {})
         merge!(config)
