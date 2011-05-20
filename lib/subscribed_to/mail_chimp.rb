@@ -13,7 +13,7 @@ module SubscribedTo
 
         if subscribed_to_list
           h = Hominid::API.new(SubscribedTo.mail_chimp_config.api_key)
-          h.list_subscribe(self.class.list_id, self.email, merge_vars.each { |key, method| merge_vars[key] = self.send(method.to_sym) })
+          h.list_subscribe(self.class.list_id, self.email, merge_vars.each { |key, method| merge_vars[key] = (self.send(method.to_sym) || "") })
         end
       rescue Hominid::APIError => e
         Rails.logger.warn e
@@ -40,7 +40,7 @@ module SubscribedTo
               h.list_subscribe(list_id, subscribed_email, merge_vars.each { |key, method| merge_vars[key] = self.send(method.to_sym) })
             end
           elsif subscribed_to_list && !(self.changed & merge_vars.collect { |key, method| method.to_s }).empty?
-            h.listUpdateMember(list_id, subscribed_email, merge_vars.each { |key, method| merge_vars[key] = self.send(method.to_sym) })
+            h.list_update_member(list_id, subscribed_email, merge_vars.each { |key, method| merge_vars[key] = self.send(method.to_sym) })
           end
         end
       rescue Hominid::APIError => e
