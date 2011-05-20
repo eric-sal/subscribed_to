@@ -54,9 +54,11 @@ Other options:
 
   rails generate subscribed_to:install MODEL
 
-If you run the generator with <tt>--skip-migration</tt>, then you must be sure to to include the <tt>subscribed_to_list</tt> column in some other migration.
+If you run the generator with <tt>--skip-migration</tt>, then you must be sure to to include the
+<tt>subscribed_to_list</tt> and <tt>mail_chimp_id</tt> columns in some other migration.
 
   t.boolean :subscribed_to_list, :default => false
+  t.integer :mail_chimp_id
 
 Be sure to run the migration before you continue.
 
