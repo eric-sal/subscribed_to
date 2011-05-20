@@ -54,7 +54,10 @@ module SubscribedTo
     def subscribed_to(id)
       if SubscribedTo.active  # don't activate all the gem goodies if we're not active
         include InstanceMethods
-        include MailChimp::InstanceMethods if SubscribedTo.service == :mail_chimp
+        if SubscribedTo.service == :mail_chimp
+          extend MailChimp::ClassMethods
+          include MailChimp::InstanceMethods
+        end
 
         @list_key = id.to_sym
 
@@ -68,16 +71,6 @@ module SubscribedTo
           after_update :update_list_member
         end
       end
-    end
-
-    # Returns the list id for the class as defined in mail_chimp
-    def list_id
-      SubscribedTo.mail_chimp_config.lists[@list_key][:id]
-    end
-
-    # Returns the hash of merge vars for the class as defined in mail_chimp
-    def merge_vars
-      SubscribedTo.mail_chimp_config.lists[@list_key][:merge_vars]
     end
   end
 

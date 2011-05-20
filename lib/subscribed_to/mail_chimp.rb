@@ -5,6 +5,18 @@ require 'hominid'
 module SubscribedTo
   # Module for MailChimp subscription interaction
   module MailChimp
+    module ClassMethods
+      # Returns the list id for the class as defined in mail_chimp
+      def list_id
+        SubscribedTo.mail_chimp_config.lists[@list_key][:id]
+      end
+
+      # Returns the hash of merge vars for the class as defined in mail_chimp
+      def merge_vars
+        SubscribedTo.mail_chimp_config.lists[@list_key][:merge_vars]
+      end
+    end
+
     module InstanceMethods
       private
 
