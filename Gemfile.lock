@@ -30,6 +30,7 @@ GEM
     activesupport (3.0.7)
     arel (2.0.9)
     builder (2.1.2)
+    database_cleaner (0.6.7)
     diff-lcs (1.1.2)
     erubis (2.6.6)
       abstract (>= 1.0.0)
@@ -110,6 +111,7 @@ PLATFORMS
 DEPENDENCIES
   activerecord
   bundler (~> 1.0.0)
+  database_cleaner
   factory_girl_rails (= 1.0.1)
   generator_spec
   hanna

@@ -7,6 +7,7 @@ gem "hominid", ">= 3.0.2"
 # Include everything needed to run rake, tests, features, etc.
 group :development do
   gem "sqlite3-ruby", :require => "sqlite3"
+  gem 'database_cleaner'
   gem "factory_girl_rails", "1.0.1"
   gem "mocha", "0.9.12"
   gem "rspec-rails", "2.5.0"

@@ -4,6 +4,7 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'simplecov'
 SimpleCov.start
 
+require 'database_cleaner'
 require 'factory_girl'
 
 # Configure Rails Envinronment
@@ -27,4 +28,17 @@ Dir["#{File.dirname(__FILE__)}/factories/*.rb"].each {|f| load f}
 
 RSpec.configure do |config|
   config.mock_with :mocha
+
+  config.before(:suite) do
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.start
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean
+  end
 end
