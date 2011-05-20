@@ -24,7 +24,7 @@ module SubscribedTo
     #
     # 5) Click "Update"
     class WebHook
-      LIMIT = 120
+      LIMIT = 10
       attr_accessor :enabled_models
 
       # Handles MailChimp webhook request.

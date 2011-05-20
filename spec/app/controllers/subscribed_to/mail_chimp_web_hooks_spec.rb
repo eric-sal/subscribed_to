@@ -85,8 +85,8 @@ describe SubscribedTo::MailChimpWebHooksController do
 
   context "for an existing user" do
     before(:each) do
-      # user was updated 2:01 ago
-      pretend_now_is(Time.zone.now - 121.seconds) do
+      # user was updated 0:11 ago
+      pretend_now_is(Time.zone.now - 11.seconds) do
         @user = Factory.build(:subscribed_user)
         @user.stubs(:subscribe_to_list)
         @user.save

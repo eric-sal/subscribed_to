@@ -27,14 +27,14 @@ describe SubscribedTo::MailChimp::WebHook do
   end
 
   it "should rate limit updates via the api to once every 2 minutes" do
-    # user was updated 2:01 ago
-    pretend_now_is(Time.zone.now - 120.seconds) do
+    # user was updated 0:10 ago
+    pretend_now_is(Time.zone.now - 10.seconds) do
       @user = Factory.build(:non_subscribed_user)
       @user.stubs(:subscribe_to_list)
       @user.save
     end
 
-    # pretend it's 1:59 from last update
+    # pretend it's 0:09 from last update
     pretend_now_is(Time.zone.now - 1.seconds) do
       expect do
         SubscribedTo::MailChimp::WebHook.process({
@@ -46,8 +46,8 @@ describe SubscribedTo::MailChimp::WebHook do
       end.not_to change { @user.reload.email }.to("my.new@email.com")
     end
 
-    # pretend it's 2:01 from last update
-    pretend_now_is(Time.zone.now + 120.seconds) do
+    # pretend it's 0:11 from last update
+    pretend_now_is(Time.zone.now + 10.seconds) do
       expect do
         SubscribedTo::MailChimp::WebHook.process({
           "type" => "upemail",
@@ -70,8 +70,8 @@ describe SubscribedTo::MailChimp::WebHook do
 
   context "for a new user" do
     before(:each) do
-      # user was updated 2:01 ago
-      pretend_now_is(Time.zone.now - 121.seconds) do
+      # user was updated 0:11 ago
+      pretend_now_is(Time.zone.now - 11.seconds) do
         @user = Factory.build(:non_subscribed_user)
         @user.stubs(:subscribe_to_list)
         @user.save
@@ -99,8 +99,8 @@ describe SubscribedTo::MailChimp::WebHook do
 
   context "for an existing user" do
     before(:each) do
-      # user was updated 2:01 ago
-      pretend_now_is(Time.zone.now - 121.seconds) do
+      # user was updated 0:11 ago
+      pretend_now_is(Time.zone.now - 11.seconds) do
         @user = Factory.build(:subscribed_user)
         @user.stubs(:subscribe_to_list)
         @user.save
