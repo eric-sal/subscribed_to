@@ -30,6 +30,8 @@ API v1.3 - http://apidocs.mailchimp.com/1.3
 * listUpdateMember
 
 
+Adds support for MailChimp webhooks
+
 <b>Constant Contact</b>
 
 Planned
@@ -77,6 +79,36 @@ Set up your mailing lists to subscribe users to. List names can be any valid sym
     :mailing_list => {
       :id => "xxxxxxxx",
       :merge_vars => {"FNAME" => :first_name, "LNAME" => :last_name, "EMAIL" => :email}}}
+
+Set your secret key for the webhook URL.
+
+Keep this key a secret. It's the only line of defense of preventing unwanted POST requests to the URL.
+
+  mail_chimp_config.secret_key = "my_secret_key_that_i_will_change"
+
+==== Webhooks
+
+The gem sets up support for MailChimp webhooks. Read more here: http://apidocs.mailchimp.com/webhooks/
+
+First, you need to setup webhooks in your MailChimp account.
+
+1) On the list tools page, click the "WebHooks" link.
+
+2) Enter the webhook URL as:
+  http://mywebapp.com/subscribed_to/mail_chimp?key=<secret_key_defined_in_config>
+
+3) Enable updates for events:
+* Subscribes
+* Unsubscribes
+* Profile Updates
+* Email Changed
+
+4) Send updates when a change was made by...
+* A subscriber
+* Account admin
+* Via the API
+
+5) Click "Update"
 
 === User Model Configuration
 

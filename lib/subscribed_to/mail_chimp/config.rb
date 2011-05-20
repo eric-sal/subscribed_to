@@ -17,12 +17,14 @@ module SubscribedTo
         end
       end
 
-      hash_accessor :api_key, :lists
+      hash_accessor :api_key, :lists, :secret_key, :enabled_models
 
       def initialize(config = {})
         merge!(config)
-        self[:api_key] ||= nil
-        self[:lists]   ||= {}
+        self[:api_key]        ||= nil
+        self[:lists]          ||= {}
+        self[:secret_key]     ||= "J/M7k+j8zBJI7SM5"
+        self[:enabled_models] ||= {}
       end
     end
   end

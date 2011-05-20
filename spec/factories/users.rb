@@ -3,6 +3,7 @@ Factory.define :subscribed_user, :class => User do |u|
   u.last_name           "Salczynski"
   u.email               "eric@wehaventthetime.com"
   u.subscribed_to_list  true
+  u.mail_chimp_id       "123"
   u.password            "abc123"
 end
 

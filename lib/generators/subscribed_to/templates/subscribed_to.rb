@@ -16,6 +16,10 @@ SubscribedTo.setup do |config|
       :mailing_list => {
         :id => "xxxxxxxx",
         :merge_vars => {"FNAME" => :first_name, "LNAME" => :last_name, "EMAIL" => :email}}}
+
+    # Include this key in your MailChimp webhook URL.
+    # Keep it a secret!
+    mail_chimp_config.secret_key = "my_secret_key_that_i_will_change"
   end
   <%- end -%>
 end

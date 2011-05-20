@@ -1,5 +1,6 @@
 require 'rails'
 require 'active_record'
+require 'active_record_extensions'
 require 'subscribed_to/mail_chimp'
 
 module SubscribedTo
@@ -26,6 +27,7 @@ module SubscribedTo
   #     config.mail_chimp do |mail_chimp_config|
   #       mail_chimp_config.api_key = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX-us1"
   #       mail_chimp_config.lists = {:mailing_list => {:id => "123456", :merge_vars => {"FNAME" => :first_name}
+  #       mail_chimp_config.secret_key = "abc123"
   #     end
   #   end
   def self.mail_chimp(&block)
@@ -46,6 +48,11 @@ module SubscribedTo
       include MailChimp::InstanceMethods if SubscribedTo.service == :mail_chimp
 
       @list_key = id.to_sym
+
+      # We need to reference which models are enabled, and which list they belong to when processing the webhooks.
+      SubscribedTo.mail_chimp_config.enabled_models[self.list_id].blank? ?
+        SubscribedTo.mail_chimp_config.enabled_models[self.list_id] = [self.to_s] :
+        SubscribedTo.mail_chimp_config.enabled_models[self.list_id] << self.to_s
 
       class_eval do
         after_create :subscribe_to_list
@@ -79,3 +86,5 @@ module SubscribedTo
 end
 
 ActiveRecord::Base.send :include, SubscribedTo
+
+require 'subscribed_to/engine'

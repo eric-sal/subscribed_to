@@ -1,4 +1,5 @@
 require 'subscribed_to/mail_chimp/config'
+require 'subscribed_to/mail_chimp/web_hook'
 require 'hominid'
 
 module SubscribedTo

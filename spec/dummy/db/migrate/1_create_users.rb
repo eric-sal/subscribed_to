@@ -5,7 +5,10 @@ class CreateUsers< ActiveRecord::Migration
       t.string    :last_name
       t.string    :email
       t.boolean   :subscribed_to_list
+      t.integer   :mail_chimp_id
       t.string    :password
+
+      t.timestamps
     end
   end
 
